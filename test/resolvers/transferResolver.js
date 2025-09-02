@@ -38,8 +38,8 @@ describe('Transfer Resolver', () => {
         });
 
         it('b - Sem saldo disponivel para transferencia', async () => {
-            const resposta = await request('http://localhost:4000/graphql')
-                .post('/transfers')
+            const resposta = await request('http://localhost:4000')
+                .post('/graphql')
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     "query": "mutation CreateTransfer($from: String!, $to: String!, $value: Float!) { createTransfer(from: $from, to: $to, value: $value) { from to value } }",
@@ -66,7 +66,6 @@ describe('Transfer Resolver', () => {
                         "value": 1
                     }
                 });
-            console.log(resposta.body)
             expect(resposta.status).to.equal(200);
             expect(resposta.body.errors[0]).to.have.property('message', 'Autenticação obrigatória')
         });
